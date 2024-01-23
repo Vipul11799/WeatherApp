@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        .container{
+            height: 100vh;
+            width: 100%;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+             background-image: linear-gradient(to right, rgb(66, 66, 111), rgb(13, 13, 33));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+          
+        }
+        .weather-app{
+            height: 240px;
+            width: 400px;
+            /* background-color: rgba(255, 255, 255, 0.379); */
+            background-image: url("https://wallpaperaccess.com/full/5202073.jpg");
+            border-radius: 20px;
+            overflow: hidden;
+            padding: 20px;
+            box-shadow: 5px 5px 7px rgba(76, 7, 45, 0.25),
+            inset 2px 2px 5px rgba(76, 7, 45, 0.5),
+            inset -3px -3px 5px rgba(76, 7, 45, 0.5) ;
+            
+        }
+        #cityname{
+            border: none;
+            outline: none;
+            height: 22px;
+            width: 45%;
+            margin-right: 10px;
+            border-bottom: 2px solid black;
+            border-radius: 5px;
+            box-shadow: inset 5px 5px 7px rgba rgb(46, 15, 76, 0.5),
+             inset 2px 2px 5px
+             rgba rgb(3, 3, 51,0.5),
+             inset -3px -3px 5px rgba(13, 76, 4, 0.5);
+        }
+        #fetch{
+            position: absolute;
+            height: 22px;
+            width: 60px;
+            border-radius: 50px;
+            box-shadow: 5px 5px 7px rgba(51, 11, 106, 0.25), 
+            inset 2px 2px 5px 
+            rgba(38, 10, 70, 0.25),
+            inset -3px -3px 5px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="weather-app">
+            <h2>WEATHER FORECAST</h2>
+            <br/>
+            <div>
+                <label for="city">Enter a City name :</label>
+                <input type="text" id="cityname" required>
+                <button type="button" id="fetch" onclick="fetchData()">FETCH</button>
+            </div>
+            <br/>
+            <div>
+                <span><b>CITY : </b> <span id ="city"></span></span><br/>
+                <span><b>Description : </b> <span id ="desc"></span></span><br/>
+                <span><b>Wind Speed : </b> <span id ="windspeed"></span></span><br/>
+                <span><b>Temperature : </b> <span id ="temp"></span></span><br/>
+                <span><b>Humidity : </b> <span id ="hum"></span></span><br/>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let key = "1bd2f2754e8419b8249c8242c785e11f";
+        let city = document.getElementById('city');
+        let desc = document.getElementById('desc');
+        let windspeed = document.getElementById('windspeed');
+        let hum = document.getElementById('hum');
+        let temp = document.getElementById('temp');
+
+        function fetchData(){
+            let cityname = document.getElementById('cityname').value;
+            let api = `https://api.openweathermap.org/data/2.5/weather?q=${cityname}&appid=${key}`
+
+            fetch(api)
+            .then(response=>response.json())
+            .then(data => {
+                city.innerHTML = data.name;
+                desc.innerHTML = data.weather[0].description;
+                windspeed.innerHTML = data.wind.speed;
+                hum.innerHTML = data.main.humidity;
+                temp.innerHTML = data.main.temp-273;
+            })
+        }
+    </script>
+</body>
+</html>
